@@ -6,4 +6,4 @@ psycopg2-binary>=2.9.9  # For PostgreSQL support
 python-dotenv>=1.0.0  # For environment variables
 daphne>=4.0.0  # ASGI server for Django
 channels>=4.0.0  # For ASGI support and WebSockets
-django-storage-supabase>=0.3.0  # For Supabase storage integration
+django-storage-supabase==0.1.0  # For Supabase storage integration
