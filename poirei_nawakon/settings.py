@@ -84,17 +84,15 @@ ASGI_APPLICATION = 'poirei_nawakon.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Use SQLite locally, but PostgreSQL in production (on Koyeb)
+# Use Supabase PostgreSQL database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True
+    )
 }
-
-# Configure database from DATABASE_URL environment variable (if present)
-if os.environ.get('DATABASE_URL'):
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
@@ -138,9 +136,14 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # Enable WhiteNoise compression and caching for static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files (User uploaded files)
+# Supabase Storage settings for media files
+DEFAULT_FILE_STORAGE = 'django_storage_supabase.storage.SupabaseStorage'
+SUPABASE_PROJECT_URL = os.environ.get('SUPABASE_PROJECT_URL')
+SUPABASE_STORAGE_BUCKET = os.environ.get('SUPABASE_STORAGE_BUCKET', 'media')
+SUPABASE_SERVICE_KEY = os.environ.get('SUPABASE_SERVICE_KEY')
+
+# Media files URL
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
