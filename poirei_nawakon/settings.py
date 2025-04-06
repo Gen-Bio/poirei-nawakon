@@ -33,6 +33,8 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']
 
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = ['https://poirei-nawakon.koyeb.app']
 
 # Application definition
 
