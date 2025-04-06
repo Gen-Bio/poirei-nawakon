@@ -1,0 +1,132 @@
+{% extends 'orphanage/base.html' %}
+
+{% block title %}Home - Poirei Nawakon{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Random Featured Images -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        {% for image in featured_images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="hero-section" style="background-image: url('{{ image.image.url }}');">
+                    <div class="hero-overlay">
+                        <div class="hero-content">
+                            <h1 class="display-4">Poirei Nawakon</h1>
+                            <p class="lead">Providing hope and support for orphaned children</p>
+                            <a href="{% url 'orphanage:donate' %}" class="btn btn-primary btn-lg mt-3">Support Our Cause</a>
+                            <div class="scroll-down">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="carousel-item active">
+                <div class="hero-section bg-primary">
+                    <div class="hero-overlay">
+                        <div class="hero-content">
+                            <h1 class="display-4">Poirei Nawakon</h1>
+                            <p class="lead">Providing hope and support for orphaned children</p>
+                            <a href="{% url 'orphanage:donate' %}" class="btn btn-light btn-lg mt-3">Support Our Cause</a>
+                            <div class="scroll-down">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Main Content -->
+<div class="container py-5">
+    <!-- About Section -->
+    <section class="mb-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="mb-4">Welcome to Poirei Nawakon</h2>
+                <p class="lead">We are dedicated to providing a loving home, education, and support for orphaned children in our community.</p>
+                <a href="{% url 'orphanage:about' %}" class="btn btn-outline-primary mt-3">Learn More About Us</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recent Achievements -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Recent Achievements</h2>
+        <div class="row">
+            {% for achievement in achievements %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        {% if achievement.image %}
+                            <img src="{{ achievement.image.url }}" class="card-img-top" alt="{{ achievement.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ achievement.title }}</h5>
+                            <p class="card-text">{{ achievement.description|truncatewords:20 }}</p>
+                            <a href="{% url 'orphanage:achievement_detail' achievement.pk %}" class="btn btn-sm btn-primary">Read More</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            {{ achievement.date|date:"F d, Y" }}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No recent achievements to display.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'orphanage:achievements' %}" class="btn btn-outline-primary">View All Achievements</a>
+        </div>
+    </section>
+    
+    <!-- Gallery Preview -->
+    <section>
+        <h2 class="text-center mb-4">Our Gallery</h2>
+        <div class="row">
+            {% for image in featured_images|slice:":4" %}
+                <div class="col-md-3 mb-4">
+                    <a href="{% url 'orphanage:gallery_detail' image.slug %}" class="text-decoration-none">
+                        <div class="card h-100">
+                            <img src="{{ image.image.url }}" class="card-img-top gallery-thumbnail" alt="{{ image.title }}">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">{{ image.title }}</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No gallery images to display.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'orphanage:gallery' %}" class="btn btn-outline-primary">Explore Our Gallery</a>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-cycle through hero carousel every 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        var heroCarousel = new bootstrap.Carousel(document.getElementById('heroCarousel'), {
+            interval: 5000
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,1 @@
+web: daphne poirei_nawakon.asgi:application

@@ -1,0 +1,52 @@
+{% extends 'orphanage/base.html' %}
+
+{% block title %}{{ image.title }} - Gallery - Poirei Nawakon{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'orphanage:gallery' %}">Gallery</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'orphanage:gallery_category' image.category.slug %}">{{ image.category.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ image.title }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-4">{{ image.title }}</h1>
+            
+            <div class="card mb-4">
+                <img src="{{ image.image.url }}" class="card-img-top" alt="{{ image.title }}">
+                <div class="card-body">
+                    <p class="card-text">{{ image.description|linebreaks }}</p>
+                    <p class="card-text"><small class="text-muted">Category: {{ image.category.name }}</small></p>
+                    <p class="card-text"><small class="text-muted">Added on: {{ image.created_at|date:"F d, Y" }}</small></p>
+                </div>
+            </div>
+            
+            {% if related_images %}
+                <h3 class="mt-5 mb-4">Related Images</h3>
+                <div class="row">
+                    {% for related in related_images %}
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <a href="{% url 'orphanage:gallery_detail' related.slug %}">
+                                    <img src="{{ related.image.url }}" class="card-img-top gallery-thumbnail" alt="{{ related.title }}">
+                                </a>
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ related.title }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div class="text-center mt-4">
+                <a href="{% url 'orphanage:gallery_category' image.category.slug %}" class="btn btn-primary">Back to {{ image.category.name }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

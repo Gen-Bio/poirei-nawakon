@@ -1,0 +1,38 @@
+{% extends 'orphanage/base.html' %}
+
+{% block title %}{{ achievement.title }} - Achievements - Poirei Nawakon{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'orphanage:achievements' %}">Achievements</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ achievement.title }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-3">{{ achievement.title }}</h1>
+            <h5 class="text-muted mb-4">{{ achievement.student_name }}</h5>
+            
+            {% if achievement.image %}
+                <div class="text-center mb-4">
+                    <img src="{{ achievement.image.url }}" class="img-fluid rounded" alt="{{ achievement.title }}">
+                </div>
+            {% endif %}
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p class="card-text">{{ achievement.description|linebreaks }}</p>
+                    <p class="card-text"><small class="text-muted">Date: {{ achievement.date|date:"F d, Y" }}</small></p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="{% url 'orphanage:achievements' %}" class="btn btn-primary">Back to All Achievements</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

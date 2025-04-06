@@ -1,0 +1,44 @@
+{% extends 'orphanage/base.html' %}
+
+{% block title %}About Us - Poirei Nawakon{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">About Poirei Nawakon</h1>
+    
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            {% if about %}
+                <h2>{{ about.title }}</h2>
+                
+                {% if about.image %}
+                <div class="text-center my-4">
+                    <img src="{{ about.image.url }}" alt="{{ about.title }}" class="img-fluid rounded shadow-sm">
+                </div>
+                {% endif %}
+                
+                <div class="mt-4">
+                    {{ about.content|linebreaks }}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <p>About page information is currently being updated. Please check back later.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Our Mission</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">To provide a loving home, quality education, and supportive environment for orphaned children, empowering them to build a brighter future.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

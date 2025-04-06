@@ -1,0 +1,61 @@
+{% extends 'orphanage/base.html' %}
+
+{% block title %}Gallery - Poirei Nawakon{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <h1 class="text-center mb-5">Our Gallery</h1>
+    
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if category.images.all %}
+                        <div id="carousel-{{ category.slug }}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                            <div class="carousel-inner">
+                                {% for image in category.images.all|slice:":5" %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ image.image.url }}" class="card-img-top gallery-thumbnail" alt="{{ image.title }}" style="height: 200px; object-fit: cover;">
+                                    </div>
+                                {% empty %}
+                                    <div class="carousel-item active">
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                            <i class="fas fa-images fa-3x text-muted"></i>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if category.images.count > 1 %}
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ category.slug }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ category.slug }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-images fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <!-- <p class="card-text">{{ category.images.count }} images</p> -->
+                        <a href="{% url 'orphanage:gallery_category' category.slug %}" class="btn btn-primary">View Gallery</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <p>No gallery categories available yet. Please check back later.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

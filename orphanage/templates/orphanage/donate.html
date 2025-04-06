@@ -1,0 +1,50 @@
+{% extends 'orphanage/base.html' %}
+
+{% block title %}Donate - Poirei Nawakon{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Support Our Mission</h1>
+    
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            {% if donate %}
+                <h2>{{ donate.title }}</h2>
+                <div class="mt-4">
+                    {{ donate.content|linebreaks }}
+                </div>
+                
+                {% if donate.bank_details %}
+                    <div class="card mt-4">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="mb-0">Bank Details</h3>
+                        </div>
+                        <div class="card-body">
+                            {{ donate.bank_details|linebreaks }}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                {% if donate.contact_info %}
+                    <div class="card mt-4">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="mb-0">Contact Information</h3>
+                        </div>
+                        <div class="card-body">
+                            {{ donate.contact_info|linebreaks }}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <div class="text-center mt-5">
+                    <a href="#" class="btn btn-lg btn-primary">Make a Donation</a>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <p>Donation information is currently being updated. Please check back later.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

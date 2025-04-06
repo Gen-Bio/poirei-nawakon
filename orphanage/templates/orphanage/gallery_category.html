@@ -1,0 +1,39 @@
+{% extends 'orphanage/base.html' %}
+
+{% block title %}{{ category.name }} - Gallery - Poirei Nawakon{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'orphanage:gallery' %}">Gallery</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+        </ol>
+    </nav>
+    
+    <h1 class="text-center mb-5">{{ category.name }}</h1>
+    
+    <div class="row">
+        {% for image in images %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <a href="{% url 'orphanage:gallery_detail' image.slug %}">
+                        <img src="{{ image.image.url }}" class="card-img-top gallery-thumbnail" alt="{{ image.title }}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ image.title }}</h5>
+                        <p class="card-text">{{ image.description|truncatewords:15 }}</p>
+                        <a href="{% url 'orphanage:gallery_detail' image.slug %}" class="btn btn-sm btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <p>No images available in this category yet. Please check back later.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
